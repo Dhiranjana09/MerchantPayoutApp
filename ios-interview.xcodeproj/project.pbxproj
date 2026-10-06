@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		0BD5C7A330755B3A00A060E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9627AC492FBF113D001FC91F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9627AC502FBF113D001FC91F;
+			remoteInfo = "ios-interview";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		0BD5C79F30755B3A00A060E8 /* ios-interviewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-interviewTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9627AC512FBF113D001FC91F /* ios-interview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-interview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		0BD5C7A030755B3A00A060E8 /* ios-interviewTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "ios-interviewTests";
+			sourceTree = "<group>";
+		};
 		9627AC532FBF113D001FC91F /* ios-interview */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "ios-interview";
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0BD5C79C30755B3A00A060E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9627AC4E2FBF113D001FC91F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				9627AC532FBF113D001FC91F /* ios-interview */,
+				0BD5C7A030755B3A00A060E8 /* ios-interviewTests */,
 				9627AC522FBF113D001FC91F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				9627AC512FBF113D001FC91F /* ios-interview.app */,
+				0BD5C79F30755B3A00A060E8 /* ios-interviewTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0BD5C79E30755B3A00A060E8 /* ios-interviewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0BD5C7A730755B3A00A060E8 /* Build configuration list for PBXNativeTarget "ios-interviewTests" */;
+			buildPhases = (
+				0BD5C79B30755B3A00A060E8 /* Sources */,
+				0BD5C79C30755B3A00A060E8 /* Frameworks */,
+				0BD5C79D30755B3A00A060E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0BD5C7A430755B3A00A060E8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0BD5C7A030755B3A00A060E8 /* ios-interviewTests */,
+			);
+			name = "ios-interviewTests";
+			packageProductDependencies = (
+			);
+			productName = "ios-interviewTests";
+			productReference = 0BD5C79F30755B3A00A060E8 /* ios-interviewTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		9627AC502FBF113D001FC91F /* ios-interview */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9627AC5C2FBF113F001FC91F /* Build configuration list for PBXNativeTarget "ios-interview" */;
@@ -77,9 +125,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2650;
+				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2650;
 				TargetAttributes = {
+					0BD5C79E30755B3A00A060E8 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 9627AC502FBF113D001FC91F;
+					};
 					9627AC502FBF113D001FC91F = {
 						CreatedOnToolsVersion = 26.5;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				9627AC502FBF113D001FC91F /* ios-interview */,
+				0BD5C79E30755B3A00A060E8 /* ios-interviewTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0BD5C79D30755B3A00A060E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9627AC4F2FBF113D001FC91F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0BD5C79B30755B3A00A060E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9627AC4D2FBF113D001FC91F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0BD5C7A430755B3A00A060E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9627AC502FBF113D001FC91F /* ios-interview */;
+			targetProxy = 0BD5C7A330755B3A00A060E8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0BD5C7A530755B3A00A060E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.personal.ios-interviewTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ios-interview.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ios-interview";
+			};
+			name = Debug;
+		};
+		0BD5C7A630755B3A00A060E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.personal.ios-interviewTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ios-interview.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ios-interview";
+			};
+			name = Release;
+		};
 		9627AC5A2FBF113F001FC91F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -309,6 +424,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0BD5C7A730755B3A00A060E8 /* Build configuration list for PBXNativeTarget "ios-interviewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BD5C7A530755B3A00A060E8 /* Debug */,
+				0BD5C7A630755B3A00A060E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9627AC4C2FBF113D001FC91F /* Build configuration list for PBXProject "ios-interview" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
