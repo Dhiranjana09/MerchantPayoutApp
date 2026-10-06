@@ -1,11 +1,11 @@
 import Foundation
 
-enum Currency: String, Codable { case GBP, EUR }
-enum ActivityType: String, Codable { case payout, deposit, refund, fee }
-enum ActivityStatus: String, Codable { case completed, pending, processing, failed }
-enum PayoutStatus: String, Codable { case pending, processing, completed, failed }
+nonisolated enum Currency: String, Codable, Sendable { case GBP, EUR }
+nonisolated enum ActivityType: String, Codable, Sendable { case payout, deposit, refund, fee }
+nonisolated enum ActivityStatus: String, Codable, Sendable { case completed, pending, processing, failed }
+nonisolated enum PayoutStatus: String, Codable, Sendable { case pending, processing, completed, failed }
 
-struct ActivityItem: Codable, Identifiable {
+nonisolated struct ActivityItem: Codable, Identifiable, Sendable {
     let id: String
     let type: ActivityType
     let amount: Int          // in pence, negative for outflows
@@ -15,20 +15,20 @@ struct ActivityItem: Codable, Identifiable {
     let status: ActivityStatus
 }
 
-struct MerchantData: Codable {
+nonisolated struct MerchantData: Codable, Sendable {
     let available_balance: Int
     let pending_balance: Int
     let currency: Currency
     let activity: [ActivityItem]
 }
 
-struct PaginatedActivityResponse: Codable {
+nonisolated struct PaginatedActivityResponse: Codable, Sendable {
     let items: [ActivityItem]
     let next_cursor: String?
     let has_more: Bool
 }
 
-struct PayoutResponse: Codable {
+nonisolated struct PayoutResponse: Codable, Sendable {
     let id: String
     let status: PayoutStatus
     let amount: Int

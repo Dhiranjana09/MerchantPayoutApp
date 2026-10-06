@@ -6,7 +6,7 @@
 //
 import Foundation
 
-enum NetworkError: LocalizedError, Equatable {
+nonisolated enum NetworkError: LocalizedError, Equatable, Sendable {
     case invalidResponse
     case server(statusCode: Int, message: String?)
     case decoding

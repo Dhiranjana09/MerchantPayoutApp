@@ -16,7 +16,7 @@ struct MerchantPayoutApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MerchantHomeView()
         }
     }
 }
