@@ -21,4 +21,13 @@ enum AppStrings {
             "Pending \(amount)"
         }
     }
+    
+    enum ActivityList {
+        static let navigationTitle = String(localized: "Transactions")
+        static let loadingTitle = "Loading transactions"
+        static let emptyTitle = String(localized: "No transactions")
+        static let loadingMoreTitle = String(localized: "Loading more…")
+        static let retryLoadingMoreTitle = String(localized: "Retry loading more")
+        static let failureTitle = String(localized: "Unable to load transactions")
+    }
 }

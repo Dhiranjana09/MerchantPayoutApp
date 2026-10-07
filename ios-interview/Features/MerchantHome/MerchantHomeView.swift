@@ -8,7 +8,7 @@ import SwiftUI
 
 struct MerchantHomeView: View {
     @State private var viewModel = MerchantHomeViewModel()
-    @State private var isActivitySheetPresented = false
+    @State private var isActivityListActive = false
 
     var body: some View {
         NavigationStack {
@@ -18,7 +18,7 @@ struct MerchantHomeView: View {
                     ProgressView(AppStrings.MerchantHome.accountLoadingTitle)
                 case let .loaded(merchant):
                     MerchantOverview(merchant: merchant) {
-                        isActivitySheetPresented = true
+                        isActivityListActive = true
                     }
                 case let .failed(message):
                     ContentUnavailableView {
@@ -35,10 +35,8 @@ struct MerchantHomeView: View {
             }
             .navigationTitle(AppStrings.MerchantHome.navigationTitle)
             .task { await viewModel.load() }
-            .sheet(isPresented: $isActivitySheetPresented) {
-                if case let .loaded(merchant) = viewModel.state {
-                    ActivitySheet(activities: merchant.activity)
-                }
+            .navigationDestination(isPresented: $isActivityListActive) {
+                ActivityListView()
             }
         }
     }
@@ -58,7 +56,7 @@ private struct MerchantOverview: View {
 
             Section {
                 ForEach(merchant.activity.prefix(3)) { activity in
-                    ActivityPreviewRow(activity: activity)
+                    ActivityRowView(activity: activity)
                 }
             } header: {
                 HStack {
@@ -102,47 +100,5 @@ private struct BalanceSummaryView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.background)
-    }
-}
-
-private struct ActivityPreviewRow: View {
-    let activity: ActivityItem
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: activity.amount < 0 ? "arrow.up.right.circle.fill" : "arrow.down.left.circle.fill")
-                .foregroundStyle(activity.amount < 0 ? .red : .green)
-                .font(.title3)
-
-            Text(activity.description)
-                .lineLimit(1)
-
-            Spacer()
-
-            Text(CurrencyFormatter.string(pence: abs(activity.amount), currency: activity.currency))
-                .fontWeight(.semibold)
-                .foregroundStyle(activity.amount < 0 ? .red : .green)
-        }
-        .padding(.vertical, 8)
-        .accessibilityElement(children: .combine)
-    }
-}
-
-private struct ActivitySheet: View {
-    @Environment(\.dismiss) private var dismiss
-    let activities: [ActivityItem]
-
-    var body: some View {
-        NavigationStack {
-            List(activities) { activity in
-                ActivityPreviewRow(activity: activity)
-            }
-            .navigationTitle("Transactions")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done", action: dismiss.callAsFunction)
-                }
-            }
-        }
     }
 }
