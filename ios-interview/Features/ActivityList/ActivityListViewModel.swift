@@ -31,29 +31,29 @@ final class ActivityListViewModel {
         case loaded(items: [ActivityItem], pagination: PaginationState)
         case failed(String)
     }
-
+    
     private(set) var state: State = .loading
-
+    
     private let repository: MerchantActivityRepository
-
+    
     init(repository: MerchantActivityRepository = RemoteMerchantActivityRepository()) {
         self.repository = repository
     }
-
+    
     func load() async {
         state = .loading
-
+        
         do {
             let page = try await repository.fetchActivity(cursor: nil)
             try Task.checkCancellation()
-
+            
             let paginationState = try createPaginationState(for: page, requestedCursor: nil)
             state = .loaded(
                 items: page.items,
                 pagination: paginationState
             )
         } catch is CancellationError {
-          // Navigating Away cancels screen tasks
+            // Navigating Away cancels screen tasks
         } catch {
             state = .failed(error.localizedDescription)
         }
@@ -71,11 +71,11 @@ final class ActivityListViewModel {
         }
         
         state = .loaded(items: items, pagination: .loading(cursor: cursor))
-
+        
         do {
             let page = try await repository.fetchActivity(cursor: cursor)
             try Task.checkCancellation()
-
+            
             let existingIDs = Set(items.map(\.id))
             let newItems = page.items.filter { !existingIDs.contains($0.id)}
             let paginationState = try createPaginationState(for: page, requestedCursor: cursor)
@@ -107,5 +107,22 @@ final class ActivityListViewModel {
         }
         
         return .ready(cursor: nextCursor)
+    }
+    
+    
+    func groups(for activites:[ActivityItem]) -> [ActivityDateGroup] {
+        let calendar = Calendar.current
+        
+        let grouped = Dictionary(grouping: activites) {
+            calendar.startOfDay(for: $0.dateValue)
+        }
+        
+        return grouped
+            .map { date, activites in
+                ActivityDateGroup(date: date, activites: activites.sorted { $0.dateValue > $1.dateValue }
+                )
+            }
+            .sorted { $0.date > $1.date
+            }
     }
 }

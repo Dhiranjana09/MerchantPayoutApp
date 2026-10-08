@@ -29,8 +29,12 @@ struct ActivityListView: View {
             )
         case let .loaded(activities, pagination):
             List {
-                ForEach(activities) { activity in
-                    ActivityRowView(activity: activity)
+                ForEach(viewModel.groups(for: activities)) { group in
+                    Section(group.title) {
+                        ForEach(group.activites) { activity in
+                            ActivityRowView(activity: activity)
+                        }
+                    }
                 }
                 
                 if pagination.cursor != nil {

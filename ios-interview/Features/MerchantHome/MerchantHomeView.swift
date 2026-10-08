@@ -8,8 +8,8 @@ import SwiftUI
 
 struct MerchantHomeView: View {
     @State private var viewModel = MerchantHomeViewModel()
-    @State private var isActivityListActive = false
-
+    @State private var isActivityListPresented = false
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -18,7 +18,7 @@ struct MerchantHomeView: View {
                     ProgressView(AppStrings.MerchantHome.accountLoadingTitle)
                 case let .loaded(merchant):
                     MerchantOverview(merchant: merchant) {
-                        isActivityListActive = true
+                        isActivityListPresented = true
                     }
                 case let .failed(message):
                     ContentUnavailableView {
@@ -35,8 +35,10 @@ struct MerchantHomeView: View {
             }
             .navigationTitle(AppStrings.MerchantHome.navigationTitle)
             .task { await viewModel.load() }
-            .navigationDestination(isPresented: $isActivityListActive) {
-                ActivityListView()
+            .sheet(isPresented: $isActivityListPresented) {
+                NavigationStack {
+                    ActivityListView()
+                }
             }
         }
     }
@@ -45,7 +47,7 @@ struct MerchantHomeView: View {
 private struct MerchantOverview: View {
     let merchant: MerchantData
     let showMore: () -> Void
-
+    
     var body: some View {
         List {
             Section {
@@ -53,7 +55,7 @@ private struct MerchantOverview: View {
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
             }
-
+            
             Section {
                 ForEach(merchant.activity.prefix(3)) { activity in
                     ActivityRowView(activity: activity)
@@ -62,9 +64,9 @@ private struct MerchantOverview: View {
                 HStack {
                     Text(AppStrings.MerchantHome.recentActivityText)
                         .font(.headline.bold())
-
+                    
                     Spacer()
-
+                    
                     Button(AppStrings.MerchantHome.viewAllTitle, action: showMore)
                         .accessibilityHint(AppStrings.MerchantHome.viewAllAccessibilityHint)
                 }
@@ -76,16 +78,16 @@ private struct MerchantOverview: View {
 
 private struct BalanceSummaryView: View {
     let merchant: MerchantData
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(AppStrings.MerchantHome.accountBalanceText)
                 .font(.headline)
-
+            
             Text(CurrencyFormatter.string(pence: merchant.available_balance, currency: merchant.currency))
                 .font(.system(size: 36, weight: .bold, design: .rounded))
                 .accessibilityLabel("Available balance \(CurrencyFormatter.string(pence: merchant.available_balance, currency: merchant.currency))")
-
+            
             Label {
                 Text(
                     AppStrings.MerchantHome.pendingBalanceLabel(
