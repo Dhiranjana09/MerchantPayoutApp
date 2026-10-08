@@ -9,6 +9,7 @@ import SwiftUI
 struct MerchantHomeView: View {
     @State private var viewModel = MerchantHomeViewModel()
     @State private var isActivityListPresented = false
+    @State private var isPayoutPresented = false
     
     var body: some View {
         NavigationStack {
@@ -34,11 +35,21 @@ struct MerchantHomeView: View {
                 }
             }
             .navigationTitle(AppStrings.MerchantHome.navigationTitle)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(AppStrings.MerchantHome.sendPayoutTitle) {
+                        isPayoutPresented = true
+                    }
+                }
+            }
             .task { await viewModel.load() }
             .sheet(isPresented: $isActivityListPresented) {
                 NavigationStack {
                     ActivityListView()
                 }
+            }
+            .sheet(isPresented: $isPayoutPresented) {
+                PayoutFlowView()
             }
         }
     }
