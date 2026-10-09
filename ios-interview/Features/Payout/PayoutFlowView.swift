@@ -4,11 +4,13 @@
 //
 //  Created by Dhiranjana Yadav on 08/10/2026.
 //
+import UIKit
 import SwiftUI
 
 struct PayoutFlowView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel = PayoutViewModel()
+    @State private var isScreenshotWarningPresented = false
 
     var body: some View {
         NavigationStack {
@@ -20,6 +22,14 @@ struct PayoutFlowView: View {
             case let .success(payout):
                 PayoutSuccessView(payout: payout, dismiss: dismiss.callAsFunction)
             }
+        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)) { _ in
+            isScreenshotWarningPresented = true
+        }.alert(AppStrings.Payout.screenshotWarningTitle, isPresented: $isScreenshotWarningPresented) {
+            Button(AppStrings.Payout.okTitle, role: .cancel) {}
+        } message: {
+            Text(AppStrings.Payout.screenshotWarningMessage)
+        }.onDisappear {
+            isScreenshotWarningPresented = false
         }
     }
 }

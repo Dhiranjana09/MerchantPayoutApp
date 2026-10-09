@@ -54,6 +54,8 @@ enum AppStrings {
         static let payoutAuthenticationTitle = "Payout authentication"
         static let payoutAuthenticationCancelled = "Payout authentication was cancelled."
         static let okTitle = "OK"
+        static let screenshotWarningTitle = "Security Notice"
+        static let screenshotWarningMessage = "Screenshots of financial data maybe a security risk."
 
         static func biometricUnavailableMessage(_ message: String) -> String {
             "Biometric authentication is unavailable. \(message)"
