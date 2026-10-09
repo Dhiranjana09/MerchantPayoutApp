@@ -67,13 +67,32 @@ private struct PayoutFormView: View {
         .navigationTitle(AppStrings.Payout.sendNavigationTitle)
         .safeAreaInset(edge: .bottom) {
             Button(AppStrings.Payout.continueTitle) {
-                viewModel.continueToConfirmation()
+                Task {
+                    await viewModel.continueToConfirmation()
+                }
             }
             .buttonStyle(.borderedProminent)
             .frame(maxWidth: .infinity)
             .padding()
             .background(.bar)
-            .disabled(!viewModel.isFormValid)
+            .disabled(!viewModel.isFormValid || viewModel.isAuthenticating)
+        }
+        .alert(
+            AppStrings.Payout.payoutAuthenticationTitle,
+            isPresented: Binding(
+                get: { viewModel.biometricAlertMessage != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        viewModel.dismissBiometricAlert()
+                    }
+                }
+            )
+        ) {
+            Button(AppStrings.Payout.okTitle, role: .cancel) {
+                viewModel.dismissBiometricAlert()
+            }
+        } message: {
+            Text(viewModel.biometricAlertMessage ?? "")
         }
     }
 }

@@ -28,19 +28,30 @@ final class PayoutViewModel {
         case failed(String)
     }
 
+    enum BiometricState {
+        case idle
+        case authenticating
+        case cancelled
+        case unavailable(String)
+    }
+
     var form = FormState()
     private(set) var screen: Screen = .form
     private(set) var submissionState: SubmissionState = .idle
+    private(set) var biometricState: BiometricState = .idle
 
     private let repository: MerchantPayoutRepository
     private let deviceIdentityService: DeviceIdentityProviding
+    private let biometricService: BiometricAuthenticating
 
     init(
         repository: MerchantPayoutRepository = RemoteMerchantPayoutRepository(),
-        deviceIdentityService: DeviceIdentityProviding = DeviceIdentityService()
+        deviceIdentityService: DeviceIdentityProviding = DeviceIdentityService(),
+        biometricService: BiometricAuthenticating = BiometricAuthenticationService()
     ) {
         self.repository = repository
         self.deviceIdentityService = deviceIdentityService
+        self.biometricService = biometricService
     }
 
     var amountInPence: Int? {
@@ -59,6 +70,22 @@ final class PayoutViewModel {
         amountInPence != nil && isIBANValid
     }
 
+    var isAuthenticating: Bool {
+        if case .authenticating = biometricState { return true }
+        return false
+    }
+
+    var biometricAlertMessage: String? {
+        switch biometricState {
+        case .cancelled:
+            return AppStrings.Payout.payoutAuthenticationCancelled
+        case let .unavailable(message):
+            return AppStrings.Payout.biometricUnavailableMessage(message)
+        case .idle, .authenticating:
+            return nil
+        }
+    }
+
     var formattedAmount: String {
         CurrencyFormatter.string(pence: amountInPence ?? 0, currency: form.currency)
     }
@@ -72,10 +99,37 @@ final class PayoutViewModel {
         )
     }
 
-    func continueToConfirmation() {
+    func continueToConfirmation() async {
         guard isFormValid else { return }
-        submissionState = .idle
-        screen = .confirmation
+
+        biometricState = .idle
+
+        guard let amountInPence, amountInPence > 100000 else {
+            submissionState = .idle
+            screen = .confirmation
+            return
+        }
+
+        biometricState = .authenticating
+        let outcome = await biometricService.authenticate()
+
+        switch outcome {
+        case .authenticated:
+            biometricState = .idle
+            submissionState = .idle
+            screen = .confirmation
+
+        case .cancelled:
+            biometricState = .cancelled
+
+        case let .unavailable(message):
+            biometricState = .unavailable(message)
+        }
+    }
+
+    func dismissBiometricAlert() {
+        guard !isAuthenticating else { return }
+        biometricState = .idle
     }
 
     func returnToForm() {

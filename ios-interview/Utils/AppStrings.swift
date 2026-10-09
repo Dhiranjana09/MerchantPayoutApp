@@ -51,6 +51,13 @@ enum AppStrings {
         static let submittedTitle = "Payout Submitted"
         static let successNavigationTitle = "Success"
         static let doneTitle = "Done"
+        static let payoutAuthenticationTitle = "Payout authentication"
+        static let payoutAuthenticationCancelled = "Payout authentication was cancelled."
+        static let okTitle = "OK"
+
+        static func biometricUnavailableMessage(_ message: String) -> String {
+            "Biometric authentication is unavailable. \(message)"
+        }
 
         static func destinationLabel(_ iban: String) -> String {
             "to \(iban)"
