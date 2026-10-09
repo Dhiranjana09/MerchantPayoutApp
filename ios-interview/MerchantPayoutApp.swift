@@ -12,6 +12,9 @@ struct MerchantPayoutApp: App {
     init() {
         // Register MockURLProtocol so URLSession.shared also routes through the mock server.
         URLProtocol.registerClass(MockURLProtocol.self)
+
+        // Create and persist the device identity during the first app launch.
+        _ = try? DeviceIdentityService().deviceID()
     }
 
     var body: some Scene {

@@ -33,9 +33,14 @@ final class PayoutViewModel {
     private(set) var submissionState: SubmissionState = .idle
 
     private let repository: MerchantPayoutRepository
+    private let deviceIdentityService: DeviceIdentityProviding
 
-    init(repository: MerchantPayoutRepository = RemoteMerchantPayoutRepository()) {
+    init(
+        repository: MerchantPayoutRepository = RemoteMerchantPayoutRepository(),
+        deviceIdentityService: DeviceIdentityProviding = DeviceIdentityService()
+    ) {
         self.repository = repository
+        self.deviceIdentityService = deviceIdentityService
     }
 
     var amountInPence: Int? {
@@ -87,11 +92,12 @@ final class PayoutViewModel {
         submissionState = .submitting
 
         do {
+            let deviceID = try deviceIdentityService.deviceID()
             let response = try await repository.sendPayout(
                 amount: amountInPence,
                 currency: form.currency,
                 iban: normalizedIBAN,
-                deviceId: nil
+                deviceId: deviceID
             )
             screen = .success(response)
         } catch {
